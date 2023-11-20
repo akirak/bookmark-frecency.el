@@ -42,6 +42,10 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'seq)
+  (require 'map))
+
 (defgroup bookmark-frecency
   nil
   "Sort bookmarks by frecency."
@@ -66,8 +70,8 @@
          (alist (bookmark-get-bookmark-record name)))
     (setf (map-elt alist 'x-frecency-access-count)
           (1+ (or (map-elt alist 'x-frecency-access-count)
-                  0)))
-    (setf (map-elt alist 'x-frecency-last-access-time)
+                  0))
+          (map-elt alist 'x-frecency-last-access-time)
           (current-time))
     (bookmark-store name alist nil)))
 
