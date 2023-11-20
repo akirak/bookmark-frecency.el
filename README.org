@@ -1,10 +1,10 @@
 * bookmark-frecency-mode for Emacs
 This library exposes ~bookmark-frecency-mode~, which is a global mode that
-tracks every visit to a bookmark and sorts bookmarks by frecency, using the
+tracks access to your bookmarks and sorts them by frecency, using the
 algorithm described in [[https://slack.engineering/a-faster-smarter-quick-switcher/][A faster, smarter Quick Switcher - Slack Engineering]].
 
 The most notable feature of this library is integration with [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] package.
-With ~bookmark-frecency-mode~, bookmarks in the dashboard widget will be sorted with minimum addition to startup time.
+With ~bookmark-frecency-mode~, bookmarks in the dashboard widget will be sorted with minimum addition to Emacs startup time.
 ** Installation
 This package is not available yet from any of the well-known package registries
 such as GNU ELPA, nonGNU ELPA, or MELPA. I may consider submitting this
@@ -25,4 +25,4 @@ There is nothing else you have to (or can) do with this package.
 When you turn on ~bookmark-frecency-mode~, every visit to a bookmark will have a side-effect on the bookmark set, and all other libraries using ~bookmark-all-names~ will get a sorted list of bookmarks.
 ** Acknowledgement
 ~bookmark-frecency.el~ is inspired by [[https://github.com/alphapapa/frecency.el][frecency.el]] by Adam Porter (a.k.a. alphapapa).
-The package is not a dependency of this package because of implementation details.
+The package is not a dependency of this package because of subtlety in implementation details.
