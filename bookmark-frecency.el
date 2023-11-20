@@ -58,8 +58,10 @@
   (if bookmark-frecency-mode
       (progn
         (advice-add 'bookmark-jump :after #'bookmark-frecency--ad-jump)
+        (advice-add 'bookmark-maybe-sort-alist :around #'bookmark-frecency--ad-maybe-sort-alist)
         (advice-add 'bookmark-all-names :filter-return #'bookmark-frecency--ad-all-names))
     (advice-remove 'bookmark-jump #'bookmark-frecency--ad-jump)
+    (advice-remove 'bookmark-maybe-sort-alist #'bookmark-frecency--ad-maybe-sort-alist)
     (advice-remove 'bookmark-all-names #'bookmark-frecency--ad-all-names)))
 
 (defun bookmark-frecency--ad-jump (record &rest _args)
@@ -67,7 +69,7 @@
   (let* ((name (cl-etypecase record
                  (string record)
                  (list (car record))))
-         (alist (bookmark-get-bookmark-record name)))
+         (alist (copy-alist (bookmark-get-bookmark-record name))))
     (setf (map-elt alist 'x-frecency-access-count)
           (1+ (or (map-elt alist 'x-frecency-access-count)
                   0))
@@ -75,22 +77,37 @@
           (current-time))
     (bookmark-store name alist nil)))
 
+(defun bookmark-frecency--ad-maybe-sort-alist (orig-fn)
+  ;; I thought about adding a non-official option for `bookmark-sort-flag', but
+  ;; it was not possible. To display entries in `bookmark-bmenu-mode', the value
+  ;; of the variable must be set strictly to one of the values defined using
+  ;; `defcustom'.
+  (if (eq bookmark-sort-flag 'last-modified)
+      (thread-last
+        (copy-alist bookmark-alist)
+        (mapcar (lambda (cell)
+                  (cons (bookmark-frecency--record-score (cdr cell))
+                        cell)))
+        (seq-sort-by #'car #'>)
+        (mapcar #'cdr))
+    (funcall orig-fn)))
+
 (defun bookmark-frecency--ad-all-names (names)
   (require 'map)
   (require 'seq)
   (thread-last
     names
     (mapcar (lambda (name)
-              (cons name (bookmark-frecency--record-score name))))
+              (cons name
+                    (bookmark-frecency--record-score (bookmark-get-bookmark-record name)))))
     (seq-sort-by #'cdr #'>)
     (mapcar #'car)))
 
-(defun bookmark-frecency--record-score (name)
+(defun bookmark-frecency--record-score (alist)
   ;; For performance, this function accesses the alist directly rather than to
   ;; use the bookmark API such as `bookmark-get-last-modified',
   ;; `bookmark-prop-get', etc. This may cause breakage in future.
-  (let* ((alist (bookmark-get-bookmark-record name))
-         (count (or (map-elt alist 'x-frecency-access-count)
+  (let* ((count (or (map-elt alist 'x-frecency-access-count)
                     1))
          (access-time (map-elt alist 'x-frecency-last-access-time))
          (mod-time (map-elt alist 'last-modified))
