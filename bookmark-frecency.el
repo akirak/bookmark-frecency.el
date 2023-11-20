@@ -47,6 +47,7 @@
   "Sort bookmarks by frecency."
   :group 'bookmark)
 
+;;;###autoload
 (define-minor-mode bookmark-frecency-mode
   "Sort bookmarks by frecency."
   :global t
