@@ -77,6 +77,7 @@
 
 (defun bookmark-frecency--ad-all-names (names)
   (require 'map)
+  (require 'seq)
   (thread-last
     names
     (mapcar (lambda (name)
