@@ -19,7 +19,7 @@ You can customize this behavior by customizing ~bookmark-save-flag~ variable.
 
 If you are using [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] package, entries in the bookmark widget will be sorted out of the box once you turn on the global mode.
 ** Usage
-To retrieve a sorted list of bookmarks, you have to use ~bookmark-all-names~.
+To retrieve a sorted list of bookmarks, use ~bookmark-all-names~.
 
 There is nothing else you have to (or can) do with this package.
 When you turn on ~bookmark-frecency-mode~, every visit to a bookmark will have a side-effect on the bookmark set, and all other libraries using ~bookmark-all-names~ will get a sorted list of bookmarks.
