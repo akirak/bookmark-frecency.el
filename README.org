@@ -4,7 +4,7 @@ tracks access to your bookmarks and sorts them by frecency, using the
 algorithm described in [[https://slack.engineering/a-faster-smarter-quick-switcher/][A faster, smarter Quick Switcher - Slack Engineering]].
 
 The most notable feature of this library is integration with [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] package.
-With ~bookmark-frecency-mode~, bookmarks in the dashboard widget will be sorted with minimum addition to Emacs startup time.
+With ~bookmark-frecency-mode~, bookmarks in the dashboard widget will be sorted at the cost of minimum addition to Emacs startup time.
 ** Installation
 This package is not available yet from any of the well-known package registries
 such as GNU ELPA, nonGNU ELPA, or MELPA. I may consider submitting this
