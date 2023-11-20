@@ -18,11 +18,14 @@ Thus your bookmarks should be persisted to ~bookmark-file~ at some point after a
 You can customize this behavior by customizing ~bookmark-save-flag~ variable.
 
 If you are using [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] package, entries in the bookmark widget will be sorted out of the box once you turn on the global mode.
+
+Also, to sort the result of ~bookmark-maybe-sort-alist~ (which is used in ~bookmark-bmenu-list~ and other commmands using ~bookmark-completing-read~) by frecency, set the value of ~bookmark-sort-flag~ to ~last-modified~.
+This is weird according to what the option value is supposed to mean, but ~bookmark-bmenu-list~ wouldn't work for a non-standard value.
 ** Usage
-To retrieve a sorted list of bookmarks, use ~bookmark-all-names~.
+To retrieve a sorted list of bookmarks, use either ~bookmark-all-names~ (only names) or ~bookmark-maybe-sort-alist~ (full records).
 
 There is nothing else you have to (or can) do with this package.
-When you turn on ~bookmark-frecency-mode~, every visit to a bookmark will have a side-effect on the bookmark set, and all other libraries using ~bookmark-all-names~ will get a sorted list of bookmarks.
+When you turn on ~bookmark-frecency-mode~, every visit to a bookmark will have a side-effect on the bookmark set, and all other libraries using ~bookmark-all-names~ and ~bookmark-maybe-sort-alist~ will get a sorted list of bookmarks.
 ** Acknowledgement
 ~bookmark-frecency.el~ is inspired by [[https://github.com/alphapapa/frecency.el][frecency.el]] by Adam Porter (a.k.a. alphapapa).
 The package is not a dependency of this package because of subtlety in implementation details.
