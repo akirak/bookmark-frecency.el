@@ -44,7 +44,14 @@
 
 (eval-when-compile
   (require 'seq)
-  (require 'map))
+  (require 'map)
+  (require 'subr-x))
+
+(defvar bookmark-alist)
+(defvar bookmark-sort-flag)
+(declare-function bookmark-store "bookmark")
+(declare-function bookmark-get-bookmark-record "bookmark")
+(declare-function cl-etypecase "cl-macs")
 
 (defgroup bookmark-frecency
   nil
@@ -66,6 +73,7 @@
 
 (defun bookmark-frecency--ad-jump (record &rest _args)
   (require 'map)
+  (require 'cl-lib)
   (let* ((name (cl-etypecase record
                  (string record)
                  (list (car record))))
