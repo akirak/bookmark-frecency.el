@@ -52,6 +52,8 @@
 (declare-function bookmark-store "bookmark")
 (declare-function bookmark-get-bookmark-record "bookmark")
 (declare-function cl-etypecase "cl-macs")
+(declare-function map-insert "map")
+(declare-function map-elt "map")
 
 (defgroup bookmark-frecency
   nil
