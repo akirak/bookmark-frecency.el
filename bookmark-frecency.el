@@ -74,6 +74,9 @@
     (advice-remove 'bookmark-all-names #'bookmark-frecency--ad-all-names)))
 
 (defun bookmark-frecency--ad-jump (record &rest _args)
+  "An advice function activated in `bookmark-frecency-mode'.
+
+RECORD is a bookmark record, as in the first argument of `bookmark-jump'."
   (require 'map)
   (require 'cl-lib)
   (let* ((name (cl-etypecase record
@@ -88,6 +91,10 @@
     (bookmark-store name alist nil)))
 
 (defun bookmark-frecency--ad-maybe-sort-alist (orig-fn)
+  "An advice function activated in `bookmark-frecency-mode'.
+
+ORIG-FN is supposed to be the original implementation of
+`bookmark-maybe-sort-alist'."
   ;; I thought about adding a non-official option for `bookmark-sort-flag', but
   ;; it was not possible. To display entries in `bookmark-bmenu-mode', the value
   ;; of the variable must be set strictly to one of the values defined using
@@ -103,6 +110,10 @@
     (funcall orig-fn)))
 
 (defun bookmark-frecency--ad-all-names (names)
+  "An advice function activated in `bookmark-frecency-mode'.
+
+NAMES should be a list of all current bookmark names, as returned
+by `bookmark-all-names'."
   (require 'map)
   (require 'seq)
   (thread-last
@@ -114,6 +125,7 @@
     (mapcar #'car)))
 
 (defun bookmark-frecency--record-score (alist)
+  "Calculate the frecency score from the ALIST of a bookmark record."
   ;; For performance, this function accesses the alist directly rather than to
   ;; use the bookmark API such as `bookmark-get-last-modified',
   ;; `bookmark-prop-get', etc. This may cause breakage in future.
@@ -132,6 +144,7 @@
        (min count 10))))
 
 (defun bookmark-frecency--score (unix-time)
+  "Calculate the qualifier from a UNIX-TIME for calculating frecency."
   (let ((secs (- (float-time) unix-time)))
     (cond
      ((<= secs 14400)
