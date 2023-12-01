@@ -18,7 +18,7 @@ jobs:
       id: matrices
       run: |
         set -euo pipefail
-        nix flake lock --update-input elisp-lock-dir
+        nix flake update elisp-lock-dir
         echo "melpazoid=$(nix eval .#melpaRecipes --apply builtins.attrNames --json)" \
           >> "$GITHUB_OUTPUT"
         echo "test=$(nix eval .#github.matrix --json)" >> "$GITHUB_OUTPUT"
@@ -33,7 +33,7 @@ jobs:
 
     - uses: cachix/install-nix-action@v24
 
-    - run: nix flake lock --update-input elisp-lock-dir
+    - run: nix flake update elisp-lock-dir
 
     - name: Get command
       id: command
@@ -70,7 +70,7 @@ jobs:
       id: recipe
       run: |
         set -euo pipefail
-        nix flake lock --update-input elisp-lock-dir
+        nix flake update elisp-lock-dir
         echo "recipe=$(nix eval .#melpaRecipes.${{ matrix.name }} --raw)" \
           >> "$GITHUB_OUTPUT"
 
