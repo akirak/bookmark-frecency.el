@@ -13,7 +13,7 @@ jobs:
       test: ${{ steps.matrices.outputs.test }}
     steps:
     - uses: actions/checkout@v4
-    - uses: cachix/install-nix-action@v25
+    - uses: cachix/install-nix-action@v26
     - name: 'Generate matrices'
       id: matrices
       run: |
@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: cachix/install-nix-action@v25
+    - uses: cachix/install-nix-action@v26
 
     - run: nix flake update elisp-lock-dir
 
@@ -64,7 +64,7 @@ jobs:
         git clone https://github.com/riscy/melpazoid.git ~/melpazoid
         pip install ~/melpazoid
 
-    - uses: cachix/install-nix-action@v25
+    - uses: cachix/install-nix-action@v26
 
     - name: Get recipe
       id: recipe
