@@ -1,4 +1,6 @@
 * bookmark-frecency-mode for Emacs
+[[https://melpa.org/#/bookmark-frecency][file:https://melpa.org/packages/bookmark-frecency-badge.svg]]
+
 This library exposes ~bookmark-frecency-mode~, which is a global mode that
 tracks access to your bookmarks and sorts them by frecency, using the
 algorithm described in [[https://slack.engineering/a-faster-smarter-quick-switcher/][A faster, smarter Quick Switcher - Slack Engineering]].
