@@ -82,13 +82,18 @@ RECORD is a bookmark record, as in the first argument of `bookmark-jump'."
   (let* ((name (cl-etypecase record
                  (string record)
                  (list (car record))))
-         (alist (copy-alist (bookmark-get-bookmark-record name))))
-    (setf (map-elt alist 'x-frecency-access-count)
-          (1+ (or (map-elt alist 'x-frecency-access-count)
-                  0))
-          (map-elt alist 'x-frecency-last-access-time)
-          (current-time))
-    (bookmark-store name alist nil)))
+         (alist (ignore-errors
+                  ;; The bookmark name can be a fake. In that case, the returned
+                  ;; value here will be nil.
+                  (copy-alist (bookmark-get-bookmark-record name)))))
+    ;; Won't update the record if it doesn't exist in the file.
+    (when alist
+      (setf (map-elt alist 'x-frecency-access-count)
+            (1+ (or (map-elt alist 'x-frecency-access-count)
+                    0))
+            (map-elt alist 'x-frecency-last-access-time)
+            (current-time))
+      (bookmark-store name alist nil))))
 
 (defun bookmark-frecency--ad-maybe-sort-alist (orig-fn)
   "An advice function activated in `bookmark-frecency-mode'.
